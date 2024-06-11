@@ -9,12 +9,12 @@ export class PostsService {
   constructor(
     @InjectModel(Post.name) private readonly postModel: Model<Post>
   ) {}
-  // private posts: Array<PostModel> = [];
-  //   findAll()
-  // public findAll(): Array<PostModel> {
-  //   return this.posts;
-  // }
-  //   create()
+  private posts: Array<PostModel> = [];
+    findAll()
+  public findAll(): Array<PostModel> {
+    return this.posts;
+  }
+    // create()
   // public create(post: PostModel) {
   //   const titleExists: boolean = this.postModel.some(
   //     (item) => item.title === post.title
@@ -57,51 +57,44 @@ export class PostsService {
     return { message: "Post created successfully", blogPost };
   }
   //   update()
-  // public update(id: number, post: PostModel) {
-  //   const postIndex: number = this.posts.findIndex((item) => item.id === id);
+  public update(id: number, post: PostModel) {
+    const postIndex: number = this.posts.findIndex((item) => item.id === id);
 
-  //   if (postIndex < 0) {
-  //     throw new UnprocessableEntityException("Post not found.");
-  //   }
+    if (postIndex < 0) {
+      throw new UnprocessableEntityException("Post not found.");
+    }
 
-  //   this.posts[postIndex] = {
-  //     ...post,
-  //     id,
-  //   };
+    this.posts[postIndex] = {
+      ...post,
+      id,
+    };
 
-  //   return {
-  //     message: "Post updated successfully",
-  //     post: this.posts[postIndex],
-  //   };
-  // }
+    return {
+      message: "Post updated successfully",
+      post: this.posts[postIndex],
+    };
+  }
   //   getPostById()
-  // public getPostById(id: number) {
-  //   const post = this.posts.find((item) => item.id === id);
+  public getPostById(id: number) {
+    const post = this.posts.find((item) => item.id === id);
 
-  //   if (!post) {
-  //     throw new UnprocessableEntityException("Post not found.");
-  //   }
-  //   return post;
-  // }
+    if (!post) {
+      throw new UnprocessableEntityException("Post not found.");
+    }
+    return post;
+  }
   //   delete()
-  //   public delete(id: number) {
-  //     const postIndex: number = this.posts.findIndex((item) => item.id === id);
+    public delete(id: number) {
+      const postIndex: number = this.posts.findIndex((item) => item.id === id);
 
-  //     if (postIndex < 0) {
-  //       throw new UnprocessableEntityException("Post not found.");
-  //     }
+      if (postIndex < 0) {
+        throw new UnprocessableEntityException("Post not found.");
+      }
 
-  //     this.posts.splice(postIndex, 1);
+      this.posts.splice(postIndex, 1);
 
-  //     return { message: "Post deleted successfully" };
-  //   }
-  // }
-  // function injectModel(
-  //   name: string
-  // ): (
-  //   target: typeof PostsService,
-  //   propertyKey: undefined,
-  //   parameterIndex: 0
-  // ) => void {
-  //   throw new Error("Function not implemented.");
-}
+      return { message: "Post deleted successfully" };
+    }
+  }
+
+

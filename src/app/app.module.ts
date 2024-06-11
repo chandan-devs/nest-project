@@ -8,10 +8,11 @@ import { PostSchema } from "src/posts/database/schema/postSchema";
 @Module({
   imports: [
     PostsModule,
-    MongooseModule.forRoot(process.env.MONGODB_URL),
-    MongooseModule.forFeature([{ name: "Post", schema: PostSchema }]),
+    // MongooseModule.forRoot( process.env.MONGO_URL),
+    MongooseModule.forRoot("mongodb+srv://chandanguptadevs:12345@cluster0.ecyf2rj.mongodb.net/"),
+    
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ],
 })
 export class AppModule {}
