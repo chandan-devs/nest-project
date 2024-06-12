@@ -17,36 +17,41 @@ export class PostsController {
   }
   // get all posts
   @Get()
-  findAll() {
-    return this.postsService.findAll();
+  async findAll() {
+    const posts = await this.postsService.findAll();
+    return {
+      statusCode: 200,
+      message: "Posts fetched successfully",
+      data: posts,
+    };
   }
   // update post
-  @Put(":id")
-  update(@Body() post: PostModel, @Param("id") id: number) {
-    const updatedPost = this.postsService.update(+id, post);
-    return {
-      statusCode: 200,
-      message: "Post updated successfully",
-      data: updatedPost,
-    };
-  }
+  // @Put(":id")
+  // update(@Body() post: PostModel, @Param("id") id: number) {
+  //   const updatedPost = this.postsService.update(+id, post);
+  //   return {
+  //     statusCode: 200,
+  //     message: "Post updated successfully",
+  //     data: updatedPost,
+  //   };
+  // }
   // get post by id
-  @Get(":id")
-  getPostById(@Param("id") id: number) {
-    const getPost = this.postsService.getPostById(+id);
-    return {
-      statusCode: 200,
-      message: "Post fetched successfully",
-      data: getPost,
-    };
-  }
+  // @Get(":id")
+  // getPostById(@Param("id") id: number) {
+  //   const getPost = this.postsService.getPostById(+id);
+  //   return {
+  //     statusCode: 200,
+  //     message: "Post fetched successfully",
+  //     data: getPost,
+  //   };
+  // }
   // delete post
-  @Delete(":id")
-  delete(@Param("id") id: number) {
-    this.postsService.delete(+id);
-    return {
-      statusCode: 200,
-      message: "Post deleted successfully",
-    };
-  }
+  // @Delete(":id")
+  // delete(@Param("id") id: number) {
+  //   this.postsService.delete(+id);
+  //   return {
+  //     statusCode: 200,
+  //     message: "Post deleted successfully",
+  //   };
+  // }
 }
