@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Put, Param, Delete } from "@nestjs/common";
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Delete,
+  Patch,
+} from "@nestjs/common";
 import { PostsService } from "./posts.service";
 import { PostModel } from "./dto/posts.interface";
 
@@ -17,41 +26,25 @@ export class PostsController {
   }
   // get all posts
   @Get()
-  async findAll() {
-    const posts = await this.postsService.findAll();
-    return {
-      statusCode: 200,
-      message: "Posts fetched successfully",
-      data: posts,
-    };
+  findAll() {
+    return this.postsService.findAll();
   }
   // update post
-  // @Put(":id")
-  // update(@Body() post: PostModel, @Param("id") id: number) {
-  //   const updatedPost = this.postsService.update(+id, post);
-  //   return {
-  //     statusCode: 200,
-  //     message: "Post updated successfully",
-  //     data: updatedPost,
-  //   };
-  // }
+  @Patch(":id")
+  update(@Body() post: PostModel, @Param("id") id: string) {
+    return this.postsService.update(id, post);
+
+  }
   // get post by id
-  // @Get(":id")
-  // getPostById(@Param("id") id: number) {
-  //   const getPost = this.postsService.getPostById(+id);
-  //   return {
-  //     statusCode: 200,
-  //     message: "Post fetched successfully",
-  //     data: getPost,
-  //   };
-  // }
+  @Get(":id")
+  getPostById(@Param("id") id: string) {
+    return this.postsService.getPostById(id);
+
+  }
   // delete post
-  // @Delete(":id")
-  // delete(@Param("id") id: number) {
-  //   this.postsService.delete(+id);
-  //   return {
-  //     statusCode: 200,
-  //     message: "Post deleted successfully",
-  //   };
-  // }
+  @Delete(":id")
+  delete(@Param("id") id: string) {
+    return this.postsService.deleteById(id);
+
+  }
 }

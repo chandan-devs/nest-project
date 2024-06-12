@@ -1,20 +1,23 @@
 //src/posts/post.service.ts
-import { Injectable, UnprocessableEntityException } from "@nestjs/common";
+import { Injectable, NotFoundException, UnprocessableEntityException } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { PostModel } from "./dto/posts.interface";
 import { Post } from "./database/schema/postSchema";
 import { Model } from "mongoose";
+import { Types } from "mongoose";
 
 @Injectable()
 export class PostsService {
   constructor(
     @InjectModel(Post.name) private readonly postModel: Model<Post>
   ) {}
+  // private posts: Array<PostModel> = [];
+  //   findAll()
   public async findAll(): Promise<PostModel[]> {
-    return await this.postModel.find().exec();
+    const posts = await this.postModel.find().exec();
+    return posts;
   }
-  
-    // create()
+  //   create()
   // public create(post: PostModel) {
   //   const titleExists: boolean = this.postModel.some(
   //     (item) => item.title === post.title
@@ -56,45 +59,41 @@ export class PostsService {
 
     return { message: "Post created successfully", blogPost };
   }
-  // //   update()
-  // public update(id: number, post: PostModel) {
-  //   const postIndex: number = this.posts.findIndex((item) => item.id === id);
+  //   update()
+  public async update(id: string, post: PostModel) {
+    const objectId = new Types.ObjectId(id);
+    const existingPost = await this.postModel.findOne({ _id:objectId });
+    if (!existingPost) {
+      throw new NotFoundException("Post not found.");
+    }
+    Object.assign(existingPost, post);
+    await existingPost.save();
 
-  //   if (postIndex < 0) {
-  //     throw new UnprocessableEntityException("Post not found.");
-  //   }
-
-  //   this.posts[postIndex] = {
-  //     ...post,
-  //     id,
-  //   };
-
-  //   return {
-  //     message: "Post updated successfully",
-  //     post: this.posts[postIndex],
-  //   };
-  // }
-  //   getPostById()
-  // public getPostById(id: number) {
-  //   const post = this.posts.find((item) => item.id === id);
-
-  //   if (!post) {
-  //     throw new UnprocessableEntityException("Post not found.");
-  //   }
-  //   return post;
-  // }
-  //   delete()
-    // public delete(id: number) {
-    //   const postIndex: number = this.posts.findIndex((item) => item.id === id);
-
-    //   if (postIndex < 0) {
-    //     throw new UnprocessableEntityException("Post not found.");
-    //   }
-
-    //   this.posts.splice(postIndex, 1);
-
-    //   return { message: "Post deleted successfully" };
-    // }
+    return {
+      message: "Post updated successfully",
+      post: existingPost,
+    };
   }
+  // getPostById()
+  public async getPostById(id:string):Promise<PostModel> {
+    const objId = new Types.ObjectId(id)
 
-
+    const post = await this.postModel.findOne({_id:objId} );
+    
+    if (!post) {
+      throw new NotFoundException("Post not found.");
+    }
+    return post;
+  }
+  //   delete()
+  public async deleteById(id: string): Promise<{ message: string }> {
+    const objId = new Types.ObjectId(id)
+    const findId = await this.postModel.findOne({_id:objId});
+    if (findId) {
+      await this.postModel.deleteOne({ _id: id });
+    } else {
+      throw new NotFoundException("Post not found.");
+    }
+    return { message: "Post deleted successfully" };
+  }
+}
