@@ -11,9 +11,10 @@ export class PostsService {
   ) {}
   // private posts: Array<PostModel> = [];
   //   findAll()
-  // public findAll(): Array<PostModel> {
-  //   return this.posts;
-  // }
+  public async findAll(): Promise<PostModel[]> {
+    const posts = await this.postModel.find().exec();
+    return posts;
+  }
   //   create()
   // public create(post: PostModel) {
   //   const titleExists: boolean = this.postModel.some(
@@ -57,14 +58,14 @@ export class PostsService {
     return { message: "Post created successfully", blogPost };
   }
   //   update()
-  // public update(id: number, post: PostModel) {
-  //   const postIndex: number = this.posts.findIndex((item) => item.id === id);
+  // public async update(id: number, post: PostModel) {
+  //   const postId = this.postModel.findOne((item) => item.id === id);
 
-  //   if (postIndex < 0) {
+  //   if (postId) {
   //     throw new UnprocessableEntityException("Post not found.");
   //   }
 
-  //   this.posts[postIndex] = {
+  //   this.postModel[postId] = {
   //     ...post,
   //     id,
   //   };
@@ -74,34 +75,24 @@ export class PostsService {
   //     post: this.posts[postIndex],
   //   };
   // }
-  //   getPostById()
-  // public getPostById(id: number) {
-  //   const post = this.posts.find((item) => item.id === id);
+  // getPostById()
+  public async getPostById(id: number) {
+    const post = await this.postModel.findOne({ id }).exec();
 
-  //   if (!post) {
-  //     throw new UnprocessableEntityException("Post not found.");
-  //   }
-  //   return post;
-  // }
+    if (!post) {
+      throw new UnprocessableEntityException("Post not found.");
+    }
+    return post;
+  }
   //   delete()
-  //   public delete(id: number) {
-  //     const postIndex: number = this.posts.findIndex((item) => item.id === id);
+  public async deleteById(id: number): Promise<{ message: string }> {
+    const findId = await this.postModel.findOne((item) => item._id === id);
 
-  //     if (postIndex < 0) {
-  //       throw new UnprocessableEntityException("Post not found.");
-  //     }
-
-  //     this.posts.splice(postIndex, 1);
-
-  //     return { message: "Post deleted successfully" };
-  //   }
-  // }
-  // function injectModel(
-  //   name: string
-  // ): (
-  //   target: typeof PostsService,
-  //   propertyKey: undefined,
-  //   parameterIndex: 0
-  // ) => void {
-  //   throw new Error("Function not implemented.");
+    if (findId) {
+      await this.postModel.deleteOne({ _id: id });
+    } else {
+      throw new UnprocessableEntityException("Post not found.");
+    }
+    return { message: "Post deleted successfully" };
+  }
 }
