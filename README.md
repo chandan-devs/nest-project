@@ -4,7 +4,7 @@
 
 ## Description
 
-Creating a CRUD (Create, Read, Update, Delete) operation in NestJS involves setting up a simple API that allows you to manage a resource. Here’s a short description of how to create a CRUD operation using NestJS:
+Performing a CRUD (Create, Read, Update, Delete) operation in NestJS involves setting up a simple API that allows you to manage and store a resource in a MongoDB database. 
 
 ## Features Overview
 - CRUD Operations
