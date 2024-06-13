@@ -17,12 +17,7 @@ export class PostsController {
   // create post
   @Post()
   create(@Body() post: PostModel) {
-    const newPost = this.postsService.create(post);
-    return {
-      statusCode: 201,
-      message: "Post created successfully",
-      data: newPost,
-    };
+    return this.postsService.create(post);
   }
   // get all posts
   @Get()
@@ -33,18 +28,15 @@ export class PostsController {
   @Patch(":id")
   update(@Body() post: PostModel, @Param("id") id: string) {
     return this.postsService.update(id, post);
-
   }
   // get post by id
   @Get(":id")
   getPostById(@Param("id") id: string) {
     return this.postsService.getPostById(id);
-
   }
   // delete post
   @Delete(":id")
   delete(@Param("id") id: string) {
     return this.postsService.deleteById(id);
-
   }
 }
