@@ -59,6 +59,6 @@ $ npm run start:prod
 
 ## Stay in touch
 
-- [Chandan Gupta]()
+- [Chandan Gupta](mailto:chandanguptabsbs@gmail.com)
 - [LinkedIn](https://www.linkedin.com/in/chandangupta-devs/)
 - [Twitter](https://twitter.com/chandanguptadev)
