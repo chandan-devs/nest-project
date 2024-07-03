@@ -8,6 +8,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
 import { UserModule } from "src/user/user.module";
 import { User } from "src/common/entity/user.entity";
+import { AuthModule } from "src/auth/auth.module";
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { User } from "src/common/entity/user.entity";
     }),
     PostsModule,
     UserModule,
+    AuthModule,
     // MongooseModule.forRoot( process.env.MONGO_URL),
     MongooseModule.forRoot(process.env.MONGODB_URI),
     TypeOrmModule.forRoot({
